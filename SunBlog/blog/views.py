@@ -10,21 +10,8 @@ from rest_framework import status
 def home(request):
     return render(request, 'blog/home.html')
 
-class PostView(APIView):
-    def get(self, request):
-        queryset = Post.objects.all().order_by('dt_publicado')
-        serializer = PostSerializer(queryset, many=True)
-        return Response(serializer.data)
-    def post(self, request):
-        serializer = PostSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
-
 def blog_posts(request):
-    api_url = 'http://127.0.0.1:8000/blog/lista/'  # Replace with your API endpoint
+    api_url = 'http://127.0.0.1:8000/api/lista/' 
     response = requests.get(api_url)
     blog_posts = response.json()
 
