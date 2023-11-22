@@ -4,6 +4,7 @@ from blog.models import Post
 from rest_framework.response import Response
 import requests
 from django.shortcuts import render
+from rest_framework import status
 
 
 def home(request):
@@ -14,6 +15,13 @@ class PostView(APIView):
         queryset = Post.objects.all().order_by('dt_publicado')
         serializer = PostSerializer(queryset, many=True)
         return Response(serializer.data)
+    def post(self, request):
+        serializer = PostSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
 def blog_posts(request):
     api_url = 'http://127.0.0.1:8000/blog/lista/'  # Replace with your API endpoint
