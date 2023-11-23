@@ -6,11 +6,24 @@ import requests
 from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework import status
 from .forms import PostForm
+from django.http import JsonResponse
+from django.shortcuts import render
+import requests
 
 
 def home(request):
     return render(request, 'blog/home.html')
 
+
+# Função para retornar um JSON
+def api_blog_posts(request):
+    api_url = 'http://127.0.0.1:8000/api/lista/' 
+    response = requests.get(api_url)
+    blog_posts = response.json()
+
+    return JsonResponse(blog_posts, safe=False)
+
+# Função para renderizar a página HTML
 def blog_posts(request):
     api_url = 'http://127.0.0.1:8000/api/lista/' 
     response = requests.get(api_url)
