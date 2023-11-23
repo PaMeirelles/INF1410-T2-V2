@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog',
     'api',
+    'accounts',
     'rest_framework',
     'corsheaders',
     'drf_yasg',
@@ -143,12 +144,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'frontend/public'),
 ]
-
-# REST_FRAMEWORK = {
-# 'DEFAULT_SCHEMA_CLASS':
-# 'rest_framework.schemas.coreapi.AutoSchema',
-# 'DEFAULT_AUTHENTICATION_CLASSES': [
-# 'rest_framework.authentication.TokenAuthentication'
-# ,
-# ],
-# }
+REST_FRAMEWORK = {
+'DEFAULT_SCHEMA_CLASS':
+'rest_framework.schemas.coreapi.AutoSchema',
+'DEFAULT_AUTHENTICATION_CLASSES': [
+'rest_framework.authentication.TokenAuthentication'
+,
+],
+}
