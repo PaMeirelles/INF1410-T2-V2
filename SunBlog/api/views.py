@@ -7,10 +7,27 @@ import requests
 from rest_framework import status
 
 class PostView(APIView):
+    def singlePost(self, id_arg):
+        try:
+            queryset = Post.objects.get(slug=id_arg)
+            return queryset
+        except Post.DoesNotExist: 
+            return None
+
     def get(self, request):
         queryset = Post.objects.all().order_by('dt_publicado')
         serializer = PostSerializer(queryset, many=True)
         return Response(serializer.data)
+
+    def get(self, request, id_arg):
+        queryset = self.singlePost(id_arg)
+        if queryset:
+            serializer = PostSerializer(queryset)
+            return Response(serializer.data)
+        else:
+            return Response({
+            'msg': f'Post com id #{id_arg} não existe'
+            }, status.HTTP_400_BAD_REQUEST)
     def post(self, request):
         serializer = PostSerializer(data=request.data)
         if serializer.is_valid():
