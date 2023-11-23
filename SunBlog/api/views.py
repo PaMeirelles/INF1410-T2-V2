@@ -28,6 +28,16 @@ class PostView(APIView):
             return Response({
             'msg': f'Post com id #{id_arg} não existe'
             }, status.HTTP_400_BAD_REQUEST)
+        
+    def put(self, request, id_arg):
+        post = self.singlePost(id_arg)
+        serializer = PostSerializer(post, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+
     def post(self, request):
         serializer = PostSerializer(data=request.data)
         if serializer.is_valid():
