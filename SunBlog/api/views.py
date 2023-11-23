@@ -47,3 +47,17 @@ class PostView(APIView):
             return Response(serializer.data, status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, id_arg):
+        id_erro = ""
+        erro = False
+        post = Post.objects.get(id=id_arg)
+        if post:
+            post.delete()
+        else:
+            id_erro += str(id_arg)
+            erro = True
+        if erro:
+            return Response({'error': f'item [{id_erro}] não encontrado'},status.HTTP_404_NOT_FOUND)
+        else:
+            return Response(status=status.HTTP_204_NO_CONTENT)

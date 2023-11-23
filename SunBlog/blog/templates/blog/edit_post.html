@@ -1,8 +1,9 @@
 {% block content %}
-  <h1>Edit Post</h1>
-  <form method="post" class="post-form">
+  <h2>Edit Post</h2>
+  <form method="post" action="">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Update Post</button>
+    <button type="submit">Save changes</button>
+    <button type="submit" name="delete">Delete post</button>
   </form>
 {% endblock %}
