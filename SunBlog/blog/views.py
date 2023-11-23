@@ -6,6 +6,10 @@ import requests
 from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework import status
 from .forms import PostForm
+from django.http import JsonResponse
+from django.shortcuts import render
+import requests
+from api.views import PostView
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
@@ -13,12 +17,39 @@ from django.views.decorators.csrf import csrf_exempt
 def home(request):
     return render(request, 'blog/home.html')
 
+
+# Função para retornar um JSON
+def api_blog_posts(request):
+    post_view = PostView()
+    response = post_view.get(request)
+
+    if response.status_code != 200:
+        return JsonResponse({'error': 'An error occurred'}, status=response.status_code)
+
+    blog_posts = response.data
+
+    return JsonResponse(blog_posts, safe=False)
+
+# Função para renderizar a página HTML
 def blog_posts(request):
-    api_url = 'http://127.0.0.1:8000/api/lista/' 
-    response = requests.get(api_url)
-    blog_posts = response.json()
+    post_view = PostView()
+    response = post_view.get(request)
+
+    if response.status_code != 200:
+        return HttpResponse(status=response.status_code)
+
+    blog_posts = response.data
 
     return render(request, 'blog/blog_posts.html', {'blog_posts': blog_posts})
+
+def post_detail(request, post_id):
+    post_view = PostView()
+    post = post_view.get(request, post_id)
+
+    if post is None:
+        return HttpResponse(status=404)
+
+    return render(request, 'blog/post_detail.html')
 
 def insert_post(request):
     if request.method == 'POST':

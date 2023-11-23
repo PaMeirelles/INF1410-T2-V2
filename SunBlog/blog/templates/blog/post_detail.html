@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ post.titulo }}</title>
+</head>
+<body>
+    <div id="post-detail"></div>
+    <script src="script.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const postId = urlParams.get('id');
+        if (postId) {
+            exibeDetalhes(postId);
+        } else {
+            console.error('Post ID not found in URL');
+        }
+    </script>
+</body>
+</html>

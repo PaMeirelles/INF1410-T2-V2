@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'api',
     'accounts',
     'rest_framework',
-    'corsheaders'
+    'corsheaders',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -135,6 +136,14 @@ CORS_ORIGIN_WHITELIST = [
     'http://localhost:8080',
 ]
 
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'frontend/public'),
+]
 REST_FRAMEWORK = {
 'DEFAULT_SCHEMA_CLASS':
 'rest_framework.schemas.coreapi.AutoSchema',
