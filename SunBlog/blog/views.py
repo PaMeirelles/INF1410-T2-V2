@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from blog.models import Post
 from rest_framework.response import Response
 import requests
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework import status
 from .forms import PostForm
 
@@ -46,3 +46,36 @@ def insert_post(request):
         form = PostForm()
 
     return render(request, 'blog/new_blog.html', {'form': form})
+
+def edit_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    
+    if request.method == 'POST':
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            
+            # Update the post through the API endpoint
+            api_url = f'http://127.0.0.1:8000/api/umpost/{post_id}/'
+            data = {
+                "titulo": form.cleaned_data['titulo'],
+                "slug": form.cleaned_data['slug'],
+                "autor": form.cleaned_data['autor'].id,
+                "corpo": form.cleaned_data['corpo'],
+                "dt_publicado": form.cleaned_data['dt_publicado'].isoformat(),
+                "status": form.cleaned_data['status'],
+            }
+            headers = {"Content-Type": "application/json"}
+            
+            response = requests.put(api_url, json=data, headers=headers)
+            
+            if response.status_code == 200:
+                # Successful update, you can redirect to a success page or post detail page
+                return redirect('blog:blog_posts')
+            else:
+                # Handle the error, maybe show an error message to the user
+                pass
+    else:
+        form = PostForm(instance=post)
+
+    return render(request, 'blog/edit_post.html', {'form': form})

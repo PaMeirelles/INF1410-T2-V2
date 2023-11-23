@@ -9,25 +9,27 @@ from rest_framework import status
 class PostView(APIView):
     def singlePost(self, id_arg):
         try:
-            queryset = Post.objects.get(slug=id_arg)
+            queryset = Post.objects.get(id=id_arg)
             return queryset
         except Post.DoesNotExist: 
             return None
 
-    def get(self, request):
-        queryset = Post.objects.all().order_by('dt_publicado')
-        serializer = PostSerializer(queryset, many=True)
-        return Response(serializer.data)
-
-    def get(self, request, id_arg):
-        queryset = self.singlePost(id_arg)
-        if queryset:
-            serializer = PostSerializer(queryset)
+    def get(self, request, id_arg=None):
+        if id_arg is None:
+            # Handle the case where no id_arg is provided
+            queryset = Post.objects.all().order_by('dt_publicado')
+            serializer = PostSerializer(queryset, many=True)
             return Response(serializer.data)
         else:
-            return Response({
-            'msg': f'Post com id #{id_arg} não existe'
-            }, status.HTTP_400_BAD_REQUEST)
+            # Handle the case where id_arg is provided
+            queryset = self.singlePost(id_arg)
+            if queryset:
+                serializer = PostSerializer(queryset)
+                return Response(serializer.data)
+            else:
+                return Response({
+                    'msg': f'Post com id #{id_arg} não existe'
+                }, status.HTTP_400_BAD_REQUEST)
         
     def put(self, request, id_arg):
         post = self.singlePost(id_arg)
