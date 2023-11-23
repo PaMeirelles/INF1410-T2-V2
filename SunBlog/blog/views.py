@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from blog.models import Post
 from rest_framework.response import Response
 import requests
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rest_framework import status
 from .forms import PostForm
 
@@ -37,7 +37,7 @@ def insert_post(request):
             # Check if the request was successful
             if response.status_code == 201:  # Assuming 201 means created
                 # Redirect or handle success as needed
-                return redirect('success_url')
+                return redirect('blog:blog_posts')
             else:
                 # Handle the error, e.g., by displaying an error message
                 error_message = f"Failed to create post. API responded with {response.status_code} status."
