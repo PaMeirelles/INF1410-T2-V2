@@ -10,6 +10,8 @@ from django.http import JsonResponse
 from django.shortcuts import render
 import requests
 from api.views import PostView
+from django.views import View
+from django.views.decorators.csrf import csrf_exempt
 
 
 def home(request):
@@ -80,12 +82,26 @@ def insert_post(request):
 
 def edit_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
-    
+
     if request.method == 'POST':
         form = PostForm(request.POST, instance=post)
-        if form.is_valid():
+
+        if 'delete' in request.POST:
+            # Handle post deletion through the API endpoint
+            api_url = f'http://127.0.0.1:8000/api/umpost/{post_id}/'
+            headers = {"Content-Type": "application/json"}
+            response = requests.delete(api_url, headers=headers)
+
+            if response.status_code == 204:
+                # Successful deletion, you can redirect to a success page or post list page
+                return redirect('blog:blog_posts')
+            else:
+                print("oioio")
+                # Handle the error, maybe show an error message to the user
+                pass
+        elif form.is_valid():
             form.save()
-            
+
             # Update the post through the API endpoint
             api_url = f'http://127.0.0.1:8000/api/umpost/{post_id}/'
             data = {
@@ -97,9 +113,9 @@ def edit_post(request, post_id):
                 "status": form.cleaned_data['status'],
             }
             headers = {"Content-Type": "application/json"}
-            
-            response = requests.put(api_url, json=data, headers=headers)
-            
+
+            response = requests.delete(api_url, json=data, headers=headers)
+
             if response.status_code == 200:
                 # Successful update, you can redirect to a success page or post detail page
                 return redirect('blog:blog_posts')
@@ -109,4 +125,4 @@ def edit_post(request, post_id):
     else:
         form = PostForm(instance=post)
 
-    return render(request, 'blog/edit_post.html', {'form': form})
+    return render(request, 'blog/edit_post.html', {'form': form, 'post': post})

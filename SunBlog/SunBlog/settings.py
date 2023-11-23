@@ -143,3 +143,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'frontend/public'),
 ]
+
+# REST_FRAMEWORK = {
+# 'DEFAULT_SCHEMA_CLASS':
+# 'rest_framework.schemas.coreapi.AutoSchema',
+# 'DEFAULT_AUTHENTICATION_CLASSES': [
+# 'rest_framework.authentication.TokenAuthentication'
+# ,
+# ],
+# }

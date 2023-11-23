@@ -111,25 +111,25 @@ class PostView(APIView):
             return Response(serializer.data, status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
-    
-    def delete(self, request, id_arg):
-        '''
-        Remove um post existente
-        Depende de:
-        - APIView
-        - Post
-        - PostSerializer
-        - Response
-        :param APIView self: o próprio objeto
-        :param Request request: um objeto representando o pedido HTTP 
-        :param int id_arg: o ID do post a ser removido
-        :return: uma resposta HTTP sem conteúdo
-        :rtype: HTTPResponse
-        '''
-        try:
-            post = Post.objects.get(pk=id_arg)
-        except Post.DoesNotExist:
-            return Response({'error': f'item [{id_arg}] não encontrado'}, status=status.HTTP_404_NOT_FOUND)
 
-        post.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    def post(self, request):
+        serializer = PostSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, id_arg):
+        id_erro = ""
+        erro = False
+        post = Post.objects.get(id=id_arg)
+        if post:
+            post.delete()
+        else:
+            id_erro += str(id_arg)
+            erro = True
+        if erro:
+            return Response({'error': f'item [{id_erro}] não encontrado'},status.HTTP_404_NOT_FOUND)
+        else:
+            return Response(status=status.HTTP_204_NO_CONTENT)
