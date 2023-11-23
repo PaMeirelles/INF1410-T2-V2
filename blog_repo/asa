@@ -1,0 +1,130 @@
+[1mdiff --git a/SunBlog/api/__pycache__/urls.cpython-311.pyc b/SunBlog/api/__pycache__/urls.cpython-311.pyc[m
+[1mindex d3bb5e7..e63fd06 100644[m
+Binary files a/SunBlog/api/__pycache__/urls.cpython-311.pyc and b/SunBlog/api/__pycache__/urls.cpython-311.pyc differ
+[1mdiff --git a/SunBlog/api/__pycache__/views.cpython-311.pyc b/SunBlog/api/__pycache__/views.cpython-311.pyc[m
+[1mindex f72d411..a0646da 100644[m
+Binary files a/SunBlog/api/__pycache__/views.cpython-311.pyc and b/SunBlog/api/__pycache__/views.cpython-311.pyc differ
+[1mdiff --git a/SunBlog/api/views.py b/SunBlog/api/views.py[m
+[1mindex 8de1abd..1adb257 100644[m
+[1m--- a/SunBlog/api/views.py[m
+[1m+++ b/SunBlog/api/views.py[m
+[36m@@ -46,4 +46,19 @@[m [mclass PostView(APIView):[m
+             serializer.save()[m
+             return Response(serializer.data, status.HTTP_201_CREATED)[m
+         else:[m
+[31m-            return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)[m
+\ No newline at end of file[m
+[32m+[m[32m            return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)[m
+[32m+[m
+[32m+[m[32m    def delete(self, request):[m
+[32m+[m[32m        id_erro = ""[m
+[32m+[m[32m        erro = False[m
+[32m+[m[32m        for id in request.data:[m
+[32m+[m[32m            post = Post.objects.get(id=id)[m
+[32m+[m[32m            if post:[m
+[32m+[m[32m                post.delete()[m
+[32m+[m[32m            else:[m
+[32m+[m[32m                id_erro += str(id)[m
+[32m+[m[32m                erro = True[m
+[32m+[m[32m        if erro:[m
+[32m+[m[32m            return Response({'error': f'item [{id_erro}] não encontrado'},status.HTTP_404_NOT_FOUND)[m
+[32m+[m[32m        else:[m
+[32m+[m[32m            return Response(status=status.HTTP_204_NO_CONTENT)[m
+\ No newline at end of file[m
+[1mdiff --git a/SunBlog/blog/__pycache__/models.cpython-311.pyc b/SunBlog/blog/__pycache__/models.cpython-311.pyc[m
+[1mindex f51e353..6c6fc58 100644[m
+Binary files a/SunBlog/blog/__pycache__/models.cpython-311.pyc and b/SunBlog/blog/__pycache__/models.cpython-311.pyc differ
+[1mdiff --git a/SunBlog/blog/__pycache__/urls.cpython-311.pyc b/SunBlog/blog/__pycache__/urls.cpython-311.pyc[m
+[1mindex 62472bd..f79a95f 100644[m
+Binary files a/SunBlog/blog/__pycache__/urls.cpython-311.pyc and b/SunBlog/blog/__pycache__/urls.cpython-311.pyc differ
+[1mdiff --git a/SunBlog/blog/__pycache__/views.cpython-311.pyc b/SunBlog/blog/__pycache__/views.cpython-311.pyc[m
+[1mindex 6dc7cc4..732cb75 100644[m
+Binary files a/SunBlog/blog/__pycache__/views.cpython-311.pyc and b/SunBlog/blog/__pycache__/views.cpython-311.pyc differ
+[1mdiff --git a/SunBlog/blog/models.py b/SunBlog/blog/models.py[m
+[1mindex 7d24459..152d3a6 100644[m
+[1m--- a/SunBlog/blog/models.py[m
+[1m+++ b/SunBlog/blog/models.py[m
+[36m@@ -31,4 +31,6 @@[m [mclass Post(models.Model):[m
+         indexes = [models.Index(fields=['-dt_publicado'])][m
+ [m
+     def __str__(self):[m
+[31m-        return self.titulo[m
+\ No newline at end of file[m
+[32m+[m[32m        return self.titulo[m
+[41m+[m
+[41m+    [m
+\ No newline at end of file[m
+[1mdiff --git a/SunBlog/blog/templates/blog/edit_post.html b/SunBlog/blog/templates/blog/edit_post.html[m
+[1mindex fac1339..55ce181 100644[m
+[1m--- a/SunBlog/blog/templates/blog/edit_post.html[m
+[1m+++ b/SunBlog/blog/templates/blog/edit_post.html[m
+[36m@@ -5,4 +5,10 @@[m
+     {{ form.as_p }}[m
+     <button type="submit">Update Post</button>[m
+   </form>[m
+[32m+[m
+[32m+[m[32m  <!-- Delete Post Form with Confirmation -->[m
+[32m+[m[32m  <form method="post" action="{% url 'blog:delete_post' post.id %}">[m
+[32m+[m[32m    {% csrf_token %}[m
+[32m+[m[32m    <button type="submit">Delete Post</button>[m
+[32m+[m[32m  </form>[m
+ {% endblock %}[m
+\ No newline at end of file[m
+[1mdiff --git a/SunBlog/blog/urls.py b/SunBlog/blog/urls.py[m
+[1mindex 3d9c695..fcc856f 100644[m
+[1m--- a/SunBlog/blog/urls.py[m
+[1m+++ b/SunBlog/blog/urls.py[m
+[36m@@ -1,5 +1,5 @@[m
+ from django.urls import path[m
+[31m-from .views import blog_posts, insert_post, edit_post[m
+[32m+[m[32mfrom .views import blog_posts, insert_post, edit_post, delete_post[m
+ [m
+ app_name = 'blog'[m
+ [m
+[36m@@ -7,4 +7,5 @@[m [murlpatterns = [[m
+     path('posts/', blog_posts, name='blog_posts'),[m
+     path('insert/', insert_post, name='insert_post'),[m
+     path('edit_post/<int:post_id>/', edit_post, name='edit_post'),[m
+[32m+[m[32m    path('delete_post/<int:post_id>/', delete_post, name='delete_post'),[m
+     ][m
+\ No newline at end of file[m
+[1mdiff --git a/SunBlog/blog/views.py b/SunBlog/blog/views.py[m
+[1mindex 06ac342..06acc6d 100644[m
+[1m--- a/SunBlog/blog/views.py[m
+[1m+++ b/SunBlog/blog/views.py[m
+[36m@@ -6,6 +6,8 @@[m [mimport requests[m
+ from django.shortcuts import render, redirect, get_object_or_404[m
+ from rest_framework import status[m
+ from .forms import PostForm[m
+[32m+[m[32mfrom django.views import View[m
+[32m+[m[32mfrom django.views.decorators.csrf import csrf_exempt[m
+ [m
+ [m
+ def home(request):[m
+[36m@@ -78,4 +80,20 @@[m [mdef edit_post(request, post_id):[m
+     else:[m
+         form = PostForm(instance=post)[m
+ [m
+[31m-    return render(request, 'blog/edit_post.html', {'form': form})[m
+\ No newline at end of file[m
+[32m+[m[32m    return render(request, 'blog/edit_post.html', {'form': form, 'post': post})[m
+[32m+[m
+[32m+[m[32mdef delete_post(request, post_id):[m
+[32m+[m[32m    post = get_object_or_404(Post, id=post_id)[m
+[32m+[m[41m    [m
+[32m+[m[32m    if request.method == 'POST':[m
+[32m+[m[32m        api_url = f'http://127.0.0.1:8000/api/umpost/{post_id}/'[m
+[32m+[m[32m        response = requests.delete(api_url)[m
+[32m+[m[41m        [m
+[32m+[m[32m        if response.status_code == 204:[m
+[32m+[m[32m            # Successful deletion[m
+[32m+[m[32m            return redirect('blog:posts')[m
+[32m+[m[32m        else:[m
+[32m+[m[32m            # Handle the error, maybe show an error message to the user[m
+[32m+[m[32m            pass[m
+[32m+[m
+[32m+[m[32m    return render(request, 'blog/posts.html')[m
+\ No newline at end of file[m
+[1mdiff --git a/SunBlog/db.sqlite3 b/SunBlog/db.sqlite3[m
+[1mindex 7b040b4..b2cb15a 100644[m
+Binary files a/SunBlog/db.sqlite3 and b/SunBlog/db.sqlite3 differ
