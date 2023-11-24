@@ -1,6 +1,6 @@
 "use strict";
 onload = function () {
-    exibeDetalhes();
+    exibeLista();
 };
 function exibeDetalhes(postId) {
     fetch(backendAddress + "blog/api/blog/post/" + postId)
