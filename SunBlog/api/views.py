@@ -12,8 +12,8 @@ from rest_framework.decorators import permission_classes
 from rest_framework.decorators import authentication_classes
 
 
-# @authentication_classes([TokenAuthentication])
-# @permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 class PostView(APIView):
     def singlePost(self, id_arg):
         try:
