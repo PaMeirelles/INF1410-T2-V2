@@ -79,9 +79,9 @@ def insert_post(request):
             post_data = {
                 'titulo': form.cleaned_data['titulo'],
                 'slug': form.cleaned_data['slug'],
-                'autor': form.cleaned_data['autor'].id,
+                'autor': request.user.username,  # Get the username of the logged in user
                 'corpo': form.cleaned_data['corpo'],
-                'dt_publicado': form.cleaned_data['dt_publicado'].isoformat(),
+                'dt_publicado': Post.Status.PUBLISHED,
                 'status': form.cleaned_data['status'],
             }
 
