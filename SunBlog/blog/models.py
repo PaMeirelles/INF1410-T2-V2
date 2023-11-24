@@ -14,7 +14,7 @@ class Post(models.Model):
         PUBLISHED = 'PB', 'Published'
 
     titulo = models.CharField(max_length=250)
-    slug = models.SlugField(max_length=250)
+    slug = models.SlugField(max_length=250, default="")
     autor = models.ForeignKey(User, on_delete = models.CASCADE, related_name='blog_posts', default=0)
     corpo = models.TextField()
     dt_publicado = models.DateTimeField(default=timezone.now)

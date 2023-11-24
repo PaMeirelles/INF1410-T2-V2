@@ -17,7 +17,6 @@ from django.views.decorators.csrf import csrf_exempt
 def home(request):
     return render(request, 'blog/home.html')
 
-
 # Função para retornar um JSON
 def api_blog_posts(request):
     post_view = PostView()
@@ -73,33 +72,7 @@ def post_detail(request, post_id):
     return render(request, 'blog/post_detail.html')
 
 def insert_post(request):
-    if request.method == 'POST':
-        form = PostForm(request.POST)
-        if form.is_valid():
-            post_data = {
-                'titulo': form.cleaned_data['titulo'],
-                'slug': form.cleaned_data['slug'],
-                'autor': request.user.username,  # Get the username of the logged in user
-                'corpo': form.cleaned_data['corpo'],
-                'dt_publicado': Post.Status.PUBLISHED,
-                'status': form.cleaned_data['status'],
-            }
-
-            api_url = 'http://127.0.0.1:8000/api/umpost/'
-            response = requests.post(api_url, json=post_data)
-
-            # Check if the request was successful
-            if response.status_code == 201:  # Assuming 201 means created
-                # Redirect or handle success as needed
-                return redirect('blog:blog_posts')
-            else:
-                # Handle the error, e.g., by displaying an error message
-                error_message = f"Failed to create post. API responded with {response.status_code} status."
-                return render(request, 'blog/blog_posts.html', {'error_message': error_message})
-    else:
-        form = PostForm()
-
-    return render(request, 'blog/new_blog.html', {'form': form})
+    return render(request, 'blog/new_blog.html')
 
 def edit_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
