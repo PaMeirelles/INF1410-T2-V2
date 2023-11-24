@@ -6,7 +6,14 @@ from rest_framework.response import Response
 import requests
 from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import permission_classes
+from rest_framework.decorators import authentication_classes
 
+
+# @authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
 class PostView(APIView):
     def singlePost(self, id_arg):
         try:

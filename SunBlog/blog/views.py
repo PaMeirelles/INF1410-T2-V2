@@ -117,7 +117,6 @@ def edit_post(request, post_id):
                 # Successful deletion, you can redirect to a success page or post list page
                 return redirect('blog:blog_posts')
             else:
-                print("oioio")
                 # Handle the error, maybe show an error message to the user
                 pass
         elif form.is_valid():
@@ -135,7 +134,7 @@ def edit_post(request, post_id):
             }
             headers = {"Content-Type": "application/json"}
 
-            response = requests.delete(api_url, json=data, headers=headers)
+            response = requests.post(api_url, json=data, headers=headers)
 
             if response.status_code == 200:
                 # Successful update, you can redirect to a success page or post detail page
