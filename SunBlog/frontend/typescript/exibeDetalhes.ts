@@ -1,6 +1,3 @@
-onload = function () {
-    exibeLista();
-}
 function exibeDetalhes(postId: string) {
     fetch(backendAddress + "blog/api/blog/post/" + postId)
         .then(response => {
@@ -17,6 +14,7 @@ function exibeDetalhes(postId: string) {
                     <p>${post.corpo}</p>
                     <p>Publicado em ${post.dt_publicado} por ${post.autor}</p>
                     <a href="/blog/posts/">Voltar para a lista de posts</a>
+                    <a href="/blog/edit_post/${post.id}/">Editar este post</a>
                 `;
             } else {
                 console.error('Element with id "post-detail" not found');
