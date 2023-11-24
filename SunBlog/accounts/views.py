@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -8,7 +9,6 @@ from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
 class CustomAuthToken(ObtainAuthToken):
-    pass
     @swagger_auto_schema(
         operation_summary='Obter o token de autenticação',
         operation_description='Retorna o token em caso de sucesso na autenticação ou HTTP 401',
@@ -77,3 +77,5 @@ class CustomAuthToken(ObtainAuthToken):
                 {'username': 'visitante'},
                 status=status.HTTP_404_NOT_FOUND)
     
+def login_page(request):
+    return render(request, "accounts/login.html")
