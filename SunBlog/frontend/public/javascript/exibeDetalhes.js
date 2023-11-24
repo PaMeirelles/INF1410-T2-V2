@@ -10,13 +10,16 @@ function exibeDetalhes(postId) {
         .then(post => {
         const postElement = document.getElementById('post-detail');
         if (postElement) {
-            postElement.innerHTML = `
+            let html = `
                     <h1>${post.titulo}</h1>
                     <p>${post.corpo}</p>
                     <p>Publicado em ${post.dt_publicado} por ${post.autor}</p>
                     <a href="/blog/posts/">Voltar para a lista de posts</a>
-                    <a href="/blog/edit_post/${post.id}/">Editar este post</a>
                 `;
+            if (post.user_is_author) {
+                html += `<a href="/blog/edit_post/${post.id}/">Editar este post</a>`;
+            }
+            postElement.innerHTML = html;
         }
         else {
             console.error('Element with id "post-detail" not found');
