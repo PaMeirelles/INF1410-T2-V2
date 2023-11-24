@@ -6,7 +6,7 @@ import requests
 from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework import status
 from .forms import PostForm
-from django.http import JsonResponse
+from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import render
 import requests
 from api.views import PostView
@@ -95,7 +95,7 @@ def insert_post(request):
             else:
                 # Handle the error, e.g., by displaying an error message
                 error_message = f"Failed to create post. API responded with {response.status_code} status."
-                return render(request, 'blog/error.html', {'error_message': error_message})
+                return render(request, 'blog/blog_posts.html', {'error_message': error_message})
     else:
         form = PostForm()
 
@@ -134,7 +134,7 @@ def edit_post(request, post_id):
             }
             headers = {"Content-Type": "application/json"}
 
-            response = requests.post(api_url, json=data, headers=headers)
+            response = requests.delete(api_url, json=data, headers=headers)
 
             if response.status_code == 200:
                 # Successful update, you can redirect to a success page or post detail page

@@ -58,36 +58,6 @@ class PostView(APIView):
                 return Response({
                     'msg': f'Post com id #{id_arg} não existe'
                 }, status.HTTP_400_BAD_REQUEST)
-        
-    @swagger_auto_schema(
-        operation_summary='Create a post',
-        operation_description="Create a new post",
-        request_body=PostSerializer,
-        responses={
-            201: 'PostSerializer',
-            400: "Bad request - Invalid data"
-        }
-    )
-    def post(self, request):
-        """
-        Creates a new post
-        Depends on:
-        - APIView
-        - Post
-        - PostSerializer
-        - Response
-        :param APIView self: the object itself
-        :param Request request: an object representing the HTTP request
-        :return: the created post in JSON format
-        :rtype: JSON
-        """
-        serializer = PostSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
-
     @swagger_auto_schema(
         operation_summary='Update a post',
         operation_description="Update a specific post given its id",
