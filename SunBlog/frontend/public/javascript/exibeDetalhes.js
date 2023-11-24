@@ -8,7 +8,11 @@ function exibeDetalhes(postId) {
         return response.json();
     })
         .then(post => {
+        var _a;
         const postElement = document.getElementById('post-detail');
+        const userId = (_a = document.getElementById('userId')) === null || _a === void 0 ? void 0 : _a.getAttribute("value");
+        console.log(userId);
+        console.log(post.autor);
         if (postElement) {
             let html = `
                     <h1>${post.titulo}</h1>
@@ -16,7 +20,7 @@ function exibeDetalhes(postId) {
                     <p>Publicado em ${post.dt_publicado} por ${post.autor}</p>
                     <a href="/blog/posts/">Voltar para a lista de posts</a>
                 `;
-            if (post.user_is_author) {
+            if (post.autor == userId) {
                 html += `<a href="/blog/edit_post/${post.id}/">Editar este post</a>`;
             }
             postElement.innerHTML = html;

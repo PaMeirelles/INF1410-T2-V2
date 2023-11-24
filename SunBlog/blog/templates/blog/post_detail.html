@@ -13,12 +13,14 @@
     <script>
         const pathParts = window.location.pathname.split('/');
         const postId = pathParts[pathParts.length - 2];
+        
         if (postId) {
             exibeDetalhes(postId);
         } else {
             console.error('Post ID not found in URL');
         }
     </script>
+    <input type="hidden" id="userId" value="{{ user.username }}">
     {% endblock %}
 </body>
 </html>
