@@ -42,6 +42,27 @@ def blog_posts(request):
 
     return render(request, 'blog/blog_posts.html', {'blog_posts': blog_posts})
 
+def post_api_detail(request, post_id):
+    try:
+        post = Post.objects.get(pk=post_id)
+    except Post.DoesNotExist:
+        raise Http404("Post does not exist")
+
+    post_detail = {
+        'id': post.id,
+        'titulo': post.titulo,
+        'slug': post.slug,
+        'autor': post.autor.username,  # assuming User model has a username field
+        'corpo': post.corpo,
+        'dt_publicado': post.dt_publicado.isoformat(),
+        'dt_criado': post.dt_criado.isoformat(),
+        'dt_atualizado': post.dt_atualizado.isoformat(),
+        'status': post.status,
+        'editado': post.editado,
+    }
+
+    return JsonResponse(post_detail)
+    
 def post_detail(request, post_id):
     post_view = PostView()
     post = post_view.get(request, post_id)
