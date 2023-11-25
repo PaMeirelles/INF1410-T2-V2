@@ -97,9 +97,12 @@ class PostView(APIView):
         :rtype: JSON
         """
         post = self.singlePost(id_arg)
-        serializer = PostSerializer(post, data=request.data)
+        serializer = PostSerializer(data=request.data)
+        print(request.data)
+        print(serializer)
         if serializer.is_valid():
-            serializer.save()
+            # Set the author during save
+            serializer.save(autor=request.user)
             return Response(serializer.data, status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)

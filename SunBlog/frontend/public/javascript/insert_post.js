@@ -1,7 +1,8 @@
 "use strict";
 function submitForm() {
-    const titulo = document.getElementById('titulo').value;
-    const corpo = document.getElementById('corpo').value;
+    var _a, _b;
+    const titulo = (_a = document.getElementById('titulo')) === null || _a === void 0 ? void 0 : _a.getAttribute("value");
+    const corpo = (_b = document.getElementById('corpo')) === null || _b === void 0 ? void 0 : _b.getAttribute("value");
     const postData = {
         titulo: titulo,
         corpo: corpo,

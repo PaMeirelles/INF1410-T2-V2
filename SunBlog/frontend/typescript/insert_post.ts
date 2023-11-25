@@ -1,6 +1,6 @@
 function submitForm() {
-    const titulo = document.getElementById('titulo').value;
-    const corpo = document.getElementById('corpo').value;
+    const titulo = document.getElementById('titulo')?.getAttribute("value");
+    const corpo = document.getElementById('corpo')?.getAttribute("value");
   
     const postData = {
       titulo: titulo,

@@ -7,8 +7,7 @@
   <form id="post-edit-form" method="post" action="">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="hidden" id="postId" value="{{ user.username }}">
-    <button id="delete-button" type="submit">Save changes</button>
-    <button id="deleteBtn" type="submit" name="delete">Delete post</button>
+    <button id="editBtn" type="submit" onclick=editPost()>Save changes</button>
+    <button id="deleteBtn" type="submit" name="delete" onclick=deletePost()>Delete post</button>
   </form>
 {% endblock %}
