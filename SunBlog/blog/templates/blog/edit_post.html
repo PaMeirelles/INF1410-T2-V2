@@ -2,12 +2,15 @@
 {% load static %}
 {% block content %}
   <h2>Edit Post</h2>
+  <form id="post-edit-form">
+    {% csrf_token %}
+    <label for="titulo">Title:</label><br>
+    <input type="text" id="titulo" name="titulo" required><br><br>
+    <label for="corpo">Post Body:</label><br>
+    <textarea id="corpo" name="corpo" rows="4" required></textarea><br><br>
+    <button id="editBtn" type="submit" onclick="saveForm()">Save changes</button>
+    <button id="deleteBtn" type="submit" name="delete" onclick="deletePost()">Delete post</button>
+  </form>
   <script src="{% static 'javascript/constantes.js' %}"></script>
   <script src="{% static 'javascript/edit_post.js' %}"></script>
-  <form id="post-edit-form" method="post" action="">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button id="editBtn" type="submit" onclick=editPost()>Save changes</button>
-    <button id="deleteBtn" type="submit" name="delete" onclick=deletePost()>Delete post</button>
-  </form>
 {% endblock %}

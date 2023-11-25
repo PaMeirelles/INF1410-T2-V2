@@ -4,8 +4,8 @@ function saveForm() {
     var _a, _b;
     const pathParts = window.location.pathname.split('/');
     const id = pathParts[pathParts.length - 2];
-    const titulo = (_a = document.getElementById('titulo')) === null || _a === void 0 ? void 0 : _a.getAttribute("value");
-    const corpo = (_b = document.getElementById('corpo')) === null || _b === void 0 ? void 0 : _b.getAttribute("value");
+    const titulo = (_a = document.getElementById('titulo')) === null || _a === void 0 ? void 0 : _a.value;
+    const corpo = (_b = document.getElementById('corpo')) === null || _b === void 0 ? void 0 : _b.value;
     const postData = {
         titulo: titulo,
         corpo: corpo,

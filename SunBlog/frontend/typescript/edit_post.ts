@@ -5,8 +5,8 @@ function saveForm() {
     const pathParts = window.location.pathname.split('/');
     const id = pathParts[pathParts.length - 2];
 
-    const titulo = document.getElementById('titulo')?.getAttribute("value");
-    const corpo = document.getElementById('corpo')?.getAttribute("value");
+    const titulo = document.getElementById('titulo')?.value;
+    const corpo = document.getElementById('corpo')?.value;
   
     const postData = {
       titulo: titulo,
