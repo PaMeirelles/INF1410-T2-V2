@@ -1,10 +1,14 @@
 {% extends "blog/base.html" %}
+{% load static %}
 {% block content %}
   <h2>Edit Post</h2>
-  <form method="post" action="">
+  <script src="{% static 'javascript/constantes.js' %}"></script>
+  <script src="{% static 'javascript/edit_post.js' %}"></script>
+  <form id="post-edit-form" method="post" action="">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Save changes</button>
-    <button type="submit" name="delete">Delete post</button>
+    <input type="hidden" id="postId" value="{{ user.username }}">
+    <button id="delete-button" type="submit">Save changes</button>
+    <button id="deleteBtn" type="submit" name="delete">Delete post</button>
   </form>
 {% endblock %}
