@@ -60,7 +60,7 @@ class PostView(APIView):
         :rtype: JSON
         """
         if id_arg is None:
-            queryset = Post.objects.all().order_by('dt_publicado')
+            queryset = Post.objects.all().order_by('-dt_publicado')
             serializer = PostSerializer(queryset, many=True)
             return Response(serializer.data)
         else:
@@ -72,6 +72,7 @@ class PostView(APIView):
                 return Response({
                     'msg': f'Post com id #{id_arg} não existe'
                 }, status.HTTP_400_BAD_REQUEST)
+    
     @swagger_auto_schema(
         operation_summary='Update a post',
         operation_description="Update a specific post given its id",
