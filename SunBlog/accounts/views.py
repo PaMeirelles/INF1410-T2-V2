@@ -165,3 +165,6 @@ class RegisterView(APIView):
 
 def register_page(request):
     return render(request, "accounts/register.html")
+
+def logout_page(request):
+    return render(request, "accounts/logout.html")

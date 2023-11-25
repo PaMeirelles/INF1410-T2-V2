@@ -12,6 +12,7 @@
         {% if user.is_authenticated %}
             <a href="{% url 'blog:insert_post' %}">Criar Postagem</a> |
             Logado como {{ user.get_username }} |
+            <a href="{% url 'accounts:logout' %}">Sair</a>
         {% else %}
             <a href="{% url 'accounts:login' %}">Entrar</a> |
             <a href="{% url 'accounts:register' %}">Registrar</a> |
