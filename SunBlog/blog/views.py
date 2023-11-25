@@ -109,12 +109,7 @@ def edit_post(request, post_id):
 
             response = requests.delete(api_url, json=data, headers=headers)
 
-            if response.status_code == 200:
-                # Successful update, you can redirect to a success page or post detail page
-                return redirect('blog:blog_posts')
-            else:
-                # Handle the error, maybe show an error message to the user
-                pass
+            return redirect('blog:blog_posts')
     else:
         form = PostForm(instance=post)
 

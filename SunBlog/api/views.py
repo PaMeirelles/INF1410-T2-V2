@@ -15,7 +15,21 @@ from rest_framework.decorators import authentication_classes
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 class PostView(APIView):
+    @swagger_auto_schema(
+        operation_summary='Get a single post',
+        operation_description='Get information about a specific post based on its id',
+        responses={200: PostSerializer()},
+    )
     def singlePost(self, id_arg):
+        """
+        This function retrieves a single post based on its id.
+
+        Parameters:
+        id_arg (int): The id of the post to retrieve.
+
+        Returns:
+        queryset (Post): The post object if it exists, None otherwise.
+        """
         try:
             queryset = Post.objects.get(id=id_arg)
             return queryset
@@ -89,7 +103,25 @@ class PostView(APIView):
         else:
             return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
+    @swagger_auto_schema(
+        operation_summary='Create a new post',
+        operation_description='Create a new post with the provided data',
+        request_body=PostSerializer,
+        responses={
+            201: PostSerializer(),
+            400: 'Bad Request'
+        },
+    )
     def post(self, request):
+        """
+        This function creates a new post with the provided data.
+
+        Parameters:
+        request (Request): The request object with the post data.
+
+        Returns:
+        Response: A response object with the created post data or the validation errors.
+        """
         serializer = PostSerializer(data=request.data)
         if serializer.is_valid():
             # Set the author during save
@@ -98,7 +130,25 @@ class PostView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    @swagger_auto_schema(
+        operation_summary='Delete a post',
+        operation_description='Delete a post based on its id',
+        responses={
+            204: 'No Content',
+            404: 'Not Found'
+        },
+    )
     def delete(self, request, id_arg):
+        """
+        This function deletes a post based on its id.
+
+        Parameters:
+        request (Request): The request object.
+        id_arg (int): The id of the post to delete.
+
+        Returns:
+        Response: A response object with a success message or an error message.
+        """
         id_erro = ""
         erro = False
         post = Post.objects.get(id=id_arg)
