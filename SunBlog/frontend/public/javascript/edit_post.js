@@ -11,7 +11,6 @@ function saveForm() {
         corpo: corpo,
     };
     const token = localStorage.getItem('token');
-    console.log("tititit" + titulo);
     fetch(backendAddress + 'api/umpost/' + id + '/', {
         method: 'PUT', // Assuming you are updating the post with a PUT request
         headers: {
