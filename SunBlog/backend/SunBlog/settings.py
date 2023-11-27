@@ -54,7 +54,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware'
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'SunBlog.urls'
@@ -131,8 +132,17 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'frontend/public')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Para permitir CORS
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8080",
+]
+CORS_ALLOW_ALL_ORIGINS = True # If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
 
+CORS_ORIGIN_WHITELIST = [
+'http://0.0.0.0:8080',
+'http://127.0.0.1:8080',
+'http://localhost:8080',
+# Adicione outras origens permitidas, se necessário
+]
 
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

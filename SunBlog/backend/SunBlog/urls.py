@@ -20,6 +20,6 @@ from django.urls.conf import include
 from django.views.generic import TemplateView
 
 urlpatterns = [
-    path('<path:route>', TemplateView.as_view(template_name='base.html')),
     path("api/", include ('api.urls')),
+
 ]

@@ -29,18 +29,6 @@ def api_blog_posts(request):
 
     return JsonResponse(blog_posts, safe=False)
 
-# Função para renderizar a página HTML
-def blog_posts(request):
-    post_view = PostView()
-    response = post_view.get(request)
-
-    if response.status_code != 200:
-        return HttpResponse(status=response.status_code)
-
-    blog_posts = response.data
-
-    return render(request, 'blog/blog_posts.html', {'blog_posts': blog_posts})
-
 def post_api_detail(request, post_id):
     try:
         post = Post.objects.get(pk=post_id)
