@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import register_page, login_page, RegisterView, logout_page, CustomAuthToken
+from .views import register_page, RegisterView, logout_page, CustomAuthToken
 app_name = 'accounts'
 
 urlpatterns = [
