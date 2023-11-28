@@ -157,9 +157,3 @@ class RegisterView(APIView):
         token, _ = Token.objects.get_or_create(user=user)
 
         return Response({'token': token.key}, status=status.HTTP_201_CREATED)
-
-def register_page(request):
-    return render(request, "accounts/register.html")
-
-def logout_page(request):
-    return render(request, "accounts/logout.html")
