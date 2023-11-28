@@ -105,9 +105,8 @@ class PostView(APIView):
         :rtype: JSON
         """
         post = self.singlePost(id_arg)
+        post.delete()
         serializer = PostSerializer(data=request.data)
-        print(request.data)
-        print(serializer)
         if serializer.is_valid():
             # Set the author during save
             serializer.save(autor=request.user)
