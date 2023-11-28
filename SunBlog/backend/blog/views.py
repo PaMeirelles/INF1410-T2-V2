@@ -12,7 +12,3 @@ import requests
 from api.views import PostView
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-
-
-def blog_posts(request):
-    return render(request, 'public/blog_posts.html')
