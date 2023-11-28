@@ -1,7 +1,7 @@
 "use strict";
 // Function to submit the form
 function saveForm() {
-    var _a, _b;
+    var _a, _b, _c;
     const pathParts = window.location.pathname.split('/');
     const id = pathParts[pathParts.length - 2];
     const titulo = (_a = document.getElementById('titulo')) === null || _a === void 0 ? void 0 : _a.value;
@@ -16,7 +16,7 @@ function saveForm() {
         headers: {
             'Authorization': 'token ' + token,
             'Content-Type': 'application/json',
-            'X-CSRFToken': document.querySelector('input[name="csrfmiddlewaretoken"]').value,
+            'X-CSRFToken': (_c = document.querySelector('input[name="csrfmiddlewaretoken"]')) === null || _c === void 0 ? void 0 : _c.value,
         },
         body: JSON.stringify(postData),
     })
@@ -39,6 +39,7 @@ function saveForm() {
 }
 // Function to delete the post
 function deletePost() {
+    var _a;
     const pathParts = window.location.pathname.split('/');
     const id = pathParts[pathParts.length - 2];
     if (confirm('Are you sure you want to delete this post?')) {
@@ -48,7 +49,7 @@ function deletePost() {
             headers: {
                 'Authorization': 'token ' + token,
                 'Content-Type': 'application/json',
-                'X-CSRFToken': document.querySelector('input[name="csrfmiddlewaretoken"]').value,
+                'X-CSRFToken': (_a = document.querySelector('input[name="csrfmiddlewaretoken"]')) === null || _a === void 0 ? void 0 : _a.value,
             },
         })
             .then(data => {

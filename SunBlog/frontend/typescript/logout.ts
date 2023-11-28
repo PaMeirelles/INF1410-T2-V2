@@ -7,7 +7,13 @@ onload = (evento) => {
         })
         .then(response => {
             const mensagem = document.getElementById('mensagem') as HTMLDivElement;
-            if(response.ok) window.location.assign('/');
+            if(response.ok) {
+                // When the user logs out
+                localStorage.removeItem('token');
+                localStorage.removeItem('username');
+
+                window.location.assign('/public/blog_posts.html');
+            }
             else mensagem.innerHTML = 'Erro ' + response.status;
         })
         .catch(erro => { 

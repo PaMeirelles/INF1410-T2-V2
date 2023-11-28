@@ -1,5 +1,5 @@
 function exibeDetalhes(postId: string) {
-    fetch(backendAddress + "blog/api/blog/post/" + postId)
+    fetch(backendAddress + "api/umpost/" + postId)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);

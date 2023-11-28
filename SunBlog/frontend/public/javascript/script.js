@@ -3,7 +3,7 @@ onload = function () {
     exibeLista();
 };
 function exibeLista() {
-    fetch(backendAddress + "blog/api/blog/posts/")
+    fetch(backendAddress + "api/lista/")
         .then(response => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -17,7 +17,7 @@ function exibeLista() {
                 const postElement = document.createElement('div');
                 postElement.className = 'post';
                 const postLink = document.createElement('a');
-                postLink.href = backendAddress + 'blog/post/' + post.id;
+                postLink.href = 'post_detail.html/' + post.id;
                 postLink.textContent = post.titulo;
                 postElement.innerHTML = `
                         <h1>${postLink.outerHTML}</h1>

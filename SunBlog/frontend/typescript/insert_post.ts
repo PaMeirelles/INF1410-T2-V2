@@ -28,8 +28,7 @@ function submitForm() {
   })
   .then(data => {
     // Handle success, e.g., redirect to the blog post page
-    console.log("batata");
-    window.location.replace('/blog/posts');
+    window.location.replace('/public/blog_posts.html');
   })
   .catch(error => {
     // Handle error, e.g., display an error message
