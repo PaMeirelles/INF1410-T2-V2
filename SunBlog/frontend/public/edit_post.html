@@ -1,9 +1,5 @@
-{% extends "blog/base.html" %}
-{% load static %}
-{% block content %}
   <h2>Edit Post</h2>
   <form id="post-edit-form">
-    {% csrf_token %}
     <label for="titulo">Title:</label><br>
     <input type="text" id="titulo" name="titulo" required><br><br>
     <label for="corpo">Post Body:</label><br>
@@ -11,6 +7,5 @@
     <button id="editBtn" type="submit" onclick="saveForm()">Save changes</button>
     <button id="deleteBtn" type="submit" name="delete" onclick="deletePost()">Delete post</button>
   </form>
-  <script src="{% static 'javascript/constantes.js' %}"></script>
-  <script src="{% static 'javascript/edit_post.js' %}"></script>
-{% endblock %}
+  <script src="javascript/constantes.js"></script>
+  <script src="javascript/edit_post.js"></script>

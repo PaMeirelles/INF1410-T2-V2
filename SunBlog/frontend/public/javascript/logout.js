@@ -12,7 +12,7 @@ onload = (evento) => {
                 // When the user logs out
                 localStorage.removeItem('token');
                 localStorage.removeItem('username');
-                window.location.assign('/public/blog_posts.html');
+                window.location.assign('/blog_posts.html');
             }
             else
                 mensagem.innerHTML = 'Erro ' + response.status;

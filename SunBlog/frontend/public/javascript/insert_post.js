@@ -25,7 +25,7 @@ function submitForm() {
     })
         .then(data => {
         // Handle success, e.g., redirect to the blog post page
-        window.location.replace('/public/blog_posts.html');
+        window.location.replace('/blog_posts.html');
     })
         .catch(error => {
         // Handle error, e.g., display an error message

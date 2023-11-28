@@ -39,8 +39,7 @@ onload = () => {
         })
         .then((data: { token: string }) => {
             const token: string = data.token;
-            localStorage.setItem('token', token);
-            window.location.replace('/public/blog_posts.html');
+            window.location.replace('/blog_posts.html');
         })
         .catch(erro => {
             console.log(erro);

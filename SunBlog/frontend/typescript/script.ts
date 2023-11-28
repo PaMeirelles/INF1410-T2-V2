@@ -18,7 +18,7 @@ function exibeLista() {
                     postElement.className = 'post';
 
                     const postLink = document.createElement('a');
-                    postLink.href = 'post_detail.html/' + post.id;
+                    postLink.href = 'post_detail.html?id=' + post.id;
                     postLink.textContent = post.titulo;
 
                     postElement.innerHTML = `

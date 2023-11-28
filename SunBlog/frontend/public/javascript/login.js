@@ -31,7 +31,7 @@ onload = () => {
             const token = data.token;
             localStorage.setItem('token', token);
             localStorage.setItem('username', username);
-            window.location.replace('/public/blog_posts.html');
+            window.location.replace('/blog_posts.html');
         })
             .catch(erro => {
             console.log(erro);
