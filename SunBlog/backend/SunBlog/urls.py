@@ -20,6 +20,7 @@ from django.urls.conf import include
 from django.views.generic import TemplateView
 
 urlpatterns = [
+    path("blog/", include("blog.urls")),
     path("api/", include ('api.urls')),
     path("accounts/", include('accounts.urls'))
 ]
