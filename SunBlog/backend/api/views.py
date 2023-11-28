@@ -11,10 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
 from rest_framework.decorators import authentication_classes
 
-
-# @authentication_classes([TokenAuthentication])
-# @permission_classes([IsAuthenticated])
-class PostView(APIView):
+class PostViewNoAuth(APIView):
     @swagger_auto_schema(
         operation_summary='Get a single post',
         operation_description='Get information about a specific post based on its id',
@@ -35,7 +32,7 @@ class PostView(APIView):
             return queryset
         except Post.DoesNotExist: 
             return None
-
+        
     @swagger_auto_schema(
         operation_summary='Get a post or list all posts',
         operation_description="Get information about a specific post if id_arg is provided, otherwise list all posts",
@@ -65,9 +62,6 @@ class PostView(APIView):
             return Response(serializer.data)
         else:
             queryset = self.singlePost(id_arg)
-            print("oioi ")
-            print(queryset)
-            print(request.user.id)
             if queryset:
                 serializer = PostSerializer(queryset)
                 response_data = {
@@ -81,6 +75,31 @@ class PostView(APIView):
                     'msg': f'Post com id #{id_arg} não existe'
                 }, status.HTTP_400_BAD_REQUEST)
     
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+class PostView(APIView):
+    
+    @swagger_auto_schema(
+        operation_summary='Get a single post',
+        operation_description='Get information about a specific post based on its id',
+        responses={200: PostSerializer()},
+    )
+    def singlePost(self, id_arg):
+        """
+        This function retrieves a single post based on its id.
+
+        Parameters:
+        id_arg (int): The id of the post to retrieve.
+
+        Returns:
+        queryset (Post): The post object if it exists, None otherwise.
+        """
+        try:
+            queryset = Post.objects.get(id=id_arg)
+            return queryset
+        except Post.DoesNotExist: 
+            return None
+        
     @swagger_auto_schema(
         operation_summary='Update a post',
         operation_description="Update a specific post given its id",
@@ -134,7 +153,6 @@ class PostView(APIView):
         Response: A response object with the created post data or the validation errors.
         """
         serializer = PostSerializer(data=request.data)
-        print(request.user)
         if serializer.is_valid():
             # Set the author during save
             serializer.save(autor=request.user)
