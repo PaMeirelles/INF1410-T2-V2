@@ -65,9 +65,17 @@ class PostView(APIView):
             return Response(serializer.data)
         else:
             queryset = self.singlePost(id_arg)
+            print("oioi ")
+            print(queryset)
+            print(request.user.id)
             if queryset:
                 serializer = PostSerializer(queryset)
-                return Response(serializer.data)
+                response_data = {
+                'user_id': request.user.id,
+                'posts': serializer.data,
+            }
+
+                return Response(response_data)
             else:
                 return Response({
                     'msg': f'Post com id #{id_arg} não existe'
@@ -127,6 +135,7 @@ class PostView(APIView):
         Response: A response object with the created post data or the validation errors.
         """
         serializer = PostSerializer(data=request.data)
+        print(request.user)
         if serializer.is_valid():
             # Set the author during save
             serializer.save(autor=request.user)
